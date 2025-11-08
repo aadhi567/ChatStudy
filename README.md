@@ -81,69 +81,57 @@ Client:
 
 ```
 import socket
-
-
-def client_program():
-    host = socket.gethostname()  # as both code is running on same pc
-    port = 5000  # socket server port number
-
-    client_socket = socket.socket()  # instantiate
-    client_socket.connect((host, port))  # connect to the server
-
-    message = input(" -> ")  # take input
-
-    while message.lower().strip() != 'bye':
-        client_socket.send(message.encode())  # send message
-        data = client_socket.recv(1024).decode()  # receive response
-
-        print('Received from server: ' + data)  # show in terminal
-
-        message = input(" -> ")  # again take input
-
-    client_socket.close()  # close the connection
-
-
-if __name__ == '__main__':
-    client_program()
+s = socket.socket()
+host = input(str('Enter hostname or host IP : ')) 
+port=8080
+s.connect((host,port))
+print('Connected to chat server')
+while 1:
+    incoming_message = s.recv(1024)
+    incoming_message=incoming_message.decode() 
+    print(' Server : ',incoming_message) 
+    print()
+    message = input(str('>> '))
+    message=message.encode()
+    s.send(message)
+    print('Sent')
+    print()
 ```
 
 ## Server
 ```
 import socket
-def server_program():
-    # get the hostname
-    host = socket.gethostname()
-    port = 5000  # initiate port no above 1024
-
-    server_socket = socket.socket()  # get instance
-    # look closely. The bind() function takes tuple as argument
-    server_socket.bind((host, port))  # bind host address and port together
-
-    # configure how many client the server can listen simultaneously
-    server_socket.listen(2)
-    conn, address = server_socket.accept()  # accept new connection
-    print("Connection from: " + str(address))
-    while True:
-        # receive data stream. it won't accept data packet greater than 1024 bytes
-        data = conn.recv(1024).decode()
-        if not data:
-            # if data is not received break
-            break
-        print("from connected user: " + str(data))
-        data = input(' -> ')
-        conn.send(data.encode())  # send data to the client
-
-    conn.close()  # close the connection
-
-
-if __name__ == '__main__':
-    server_program()
+s = socket.socket()
+host = socket.gethostname()
+print(' Server will start on host : ',host) 
+port = 8080
+s.bind((host, port))
+print()
+print('Waiting for connection')
+print()
+s.listen(1)
+conn, addr = s.accept()
+print(addr, ' Has connected to the server') 
+print()
+while 1:
+    message = input(str('>> '))
+    message = message.encode()
+    conn.send(message) 
+    print('Sent')
+    print()
+    incoming_message = conn.recv(1024)
+    incoming_message = incoming_message.decode()
+    print(' Client : ',incoming_message) 
+    print()
 
 ```
 
 ## Output:
+client:
+<img width="1185" height="352" alt="image" src="https://github.com/user-attachments/assets/077e8344-f83f-4be0-8a29-094eecad96ae" />
 
-<img width="1033" height="140" alt="image" src="https://github.com/user-attachments/assets/815b336f-6d48-4184-933c-895c81ddba57" />
+server:
+<img width="891" height="347" alt="image" src="https://github.com/user-attachments/assets/3cafec08-5a4c-4ea4-8d87-1ae76e073133" />
 
 
 ## Result:
