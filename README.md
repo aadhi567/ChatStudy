@@ -128,9 +128,11 @@ while 1:
 
 ## Output:
 client:
+
 <img width="1185" height="352" alt="image" src="https://github.com/user-attachments/assets/077e8344-f83f-4be0-8a29-094eecad96ae" />
 
 server:
+
 <img width="891" height="347" alt="image" src="https://github.com/user-attachments/assets/3cafec08-5a4c-4ea4-8d87-1ae76e073133" />
 
 
